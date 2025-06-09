@@ -1,5 +1,4 @@
-from .index import app, get_info
+from .index import get_info
 
 def handler(request):
-    with app.test_request_context():
-        return get_info()
+    return get_info()
