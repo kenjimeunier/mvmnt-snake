@@ -10,21 +10,30 @@ GITHUB_FOLDER = "images"
 @app.route('/api/info')
 def info():
     try:
-        # Test direct de l'URL GitHub
         url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/{GITHUB_FOLDER}"
         response = requests.get(url)
         
+        if response.status_code != 200:
+            return jsonify({
+                "status": "error",
+                "message": f"GitHub API returned {response.status_code}",
+                "total": 0
+            })
+        
+        files = response.json()
+        image_files = [f for f in files if f['name'].lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp'))]
+        
         return jsonify({
-            "status": "debug",
-            "url": url,
-            "status_code": response.status_code,
-            "response": response.text[:500] if response.text else "No response"
+            "status": "success",
+            "total": len(image_files),
+            "images": [{"name": f['name'], "url": f['download_url']} for f in image_files]
         })
         
     except Exception as e:
         return jsonify({
             "status": "error",
-            "message": str(e)
+            "message": str(e),
+            "total": 0
         })
 
 if __name__ == '__main__':
