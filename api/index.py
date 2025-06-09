@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Configuration GitHub
-GITHUB_USER = "kenjimeunier"
+GITHUB_FOLDER = ""  # Au lieu de "images"
 GITHUB_REPO = "mvmnt-snake"
 GITHUB_FOLDER = "images"  # Changez en "" si les images sont à la racine
 GITHUB_API_URL = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/{GITHUB_FOLDER}"
